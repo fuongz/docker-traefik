@@ -4,13 +4,16 @@ services:
   traefik:
     image: traefik:v2.4.9
     container_name: traefik
+    restart: always
     networks:
       - traefik_net
       - mysql_net
       - pg_net
     volumes:
-      - ./traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./config.yml:/etc/traefik/config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/certs:ro
     ports:
       - 80:80
       - 443:443
